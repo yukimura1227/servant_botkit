@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:yukimura1227/servant_botkit.git",
   "author": "yukimura1227 <takamura1227@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "botkit": "^4.5.0"
+  }
 }
