@@ -21,10 +21,11 @@ TOEKN
 ```
 
 ## Deploy to heroku
-TODO
 
+### heroku setup
 ```
-heroku config:set 環境変数名=セットしたい値
-heroku config:set SLACK_TEAM=aaaa
-heroku config:set TOKEN=bbbb
+heroku login
+heroku create servant-botkit
+heroku config:set SLACK_TEAM=[your team name]
+heroku config:set TOKEN=[your token]
 ```
