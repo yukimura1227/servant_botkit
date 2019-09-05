@@ -29,3 +29,9 @@ heroku create servant-botkit
 heroku config:set SLACK_TEAM=[your team name]
 heroku config:set TOKEN=[your token]
 ```
+
+### heroku config
+#### step1
+![System Structure](https://raw.githubusercontent.com/yukimura1227/servant_botkit/master/docs/change_dyno_setting_step1.png)
+#### step2
+![System Structure](https://raw.githubusercontent.com/yukimura1227/servant_botkit/master/docs/change_dyno_setting_step2.png)
