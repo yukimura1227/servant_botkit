@@ -6,7 +6,6 @@
   "author": "yukimura1227 <takamura1227@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "botbuilder-adapter-slack": "^1.0.4",
-    "botkit": "^4.5.0"
+    "botkit": "0.7.4"
   }
 }
