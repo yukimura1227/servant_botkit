@@ -1,4 +1,5 @@
 const Botkit = require('botkit');
+const request = require('request')
 
 if (!process.env.TOKEN) {
   console.log('Error: Specify TOKEN in environment');
@@ -34,7 +35,6 @@ controller.hears('hi', hearing_event_mention, function(bot,message) {
 
 controller.hears('', hearing_event_all, function(bot,message) {
   // console.log(bot);
-  console.log(message);
   var id = message.client_msg_id;
   var slack_team = process.env.SLACK_TEAM;
   var channel_id = message.channel;
@@ -42,14 +42,38 @@ controller.hears('', hearing_event_all, function(bot,message) {
   event_ts = event_ts.replace('.','')
   var url_parameter = `?thread_ts=${message.thread_ts}&cid=${channel_id}`
   var post_link = `https://${slack_team}.slack.com/archives/${channel_id}/p${event_ts}`
-  var channel_from_id
+  var URL = `https://slack.com/api/channels.info?token=${process.env.TOKEN}&channel=${channel_id}`
+  request(URL, (error, response, body) => {
+    if (!error && response.statusCode == 200) {
+      let channel_info = JSON.parse(body);
+      // console.log(channel_info);
+      var channel_name =  channel_info.channel.name;
+
+      if(channel_name.match('^times_.+')) {
+        repost_to('#timeline', bot, post_link, message);
+      }
+
+      if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
+        repost_to('#日報_all', bot, post_link, message);
+      }
+
+      if (channel_name.match('^日報_(.*)_.+')) {
+        matcher = channel_name.match('^日報_(.*)_.+');
+        repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
+        repost_to('#日報_all', bot, post_link, message);
+      }
+    }
+  });
+});
+
+function repost_to(channel, bot, post_link, message) {
+  console.log(message);
   bot.api.chat.postMessage({
     text: `${post_link}`,
-    channel: '#random',
-    as_user: false,
-    username: bot.identity.name,
+    channel: channel,
+    as_user: true,
     unfurl_links: true
   }, function(err, message){
     if(err) { console.log("err: ", err); return; }
   });
-});
+}
