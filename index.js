@@ -50,27 +50,25 @@ controller.hears('', hearing_event_all, function(bot,message) {
       // console.log(channel_info);
       var channel_name =  channel_info.channel.name;
 
-      // if(channel_name.match('^times_.+')) {
-      //   repost_to('#timeline', bot, post_link, message);
-      // }
+      if(channel_name.match('^times_.+')) {
+        repost_to('#timeline', bot, post_link, message);
+      }
 
-      // if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
-      //   repost_to('#日報_all', bot, post_link, message);
-      // }
+      if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
+        repost_to('#日報_all', bot, post_link, message);
+      }
 
-      // if (channel_name.match('^日報_(.*)_.+')) {
-      //   matcher = channel_name.match('^日報_(.*)_.+');
-      //   repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
-      //   repost_to('#日報_all', bot, post_link, message);
-      // }
+      if (channel_name.match('^日報_(.*)_.+')) {
+        matcher = channel_name.match('^日報_(.*)_.+');
+        repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
+        repost_to('#日報_all', bot, post_link, message);
+      }
 
-     
-
-      const key = "7baa756dc6314bb4a1b7e3019602d0dc";
-      const token="e4528b014c42038225b7324a5af99f508b1f4f5cdb1972462dcc2651323032a7";
-      const ui_note="5d6e1bd5bf1ddb7a6ac7814c";
-      const list_new_id="5d6e3b0cbdc0466c9eb05c85";      
-      const bot_room = '西口bot実験室'
+      const key = process.env.TRELLO_KEY;
+      const token=process.env.TRELLO_TOKEN;
+      const ui_note=process.env.TRELLO_UI_NOTE;
+      const list_new_id=process.env.TRELLO_LIST_NEW_ID;
+      const bot_room = 'ui_notes'
       const key_word_matcher = '^title:.*' 
       const title_matcher = '^title:([^\n]*)'
       var msg = message["text"];
