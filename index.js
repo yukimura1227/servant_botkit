@@ -35,6 +35,7 @@ controller.hears('hi', hearing_event_mention, function(bot,message) {
 
 controller.hears('', hearing_event_all, function(bot,message) {
   // console.log(bot);
+  console.log(message);
   var id = message.client_msg_id;
   var slack_team = process.env.SLACK_TEAM;
   var channel_id = message.channel;
@@ -62,9 +63,43 @@ controller.hears('', hearing_event_all, function(bot,message) {
         repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
         repost_to('#日報_all', bot, post_link, message);
       }
+
+      const key = process.env.TRELLO_KEY;
+      const token=process.env.TRELLO_TOKEN;
+      const ui_note=process.env.TRELLO_UI_NOTE;
+      const list_new_id=process.env.TRELLO_LIST_NEW_ID;
+      const bot_room = 'ui_notes'
+      const key_word_matcher = '^title:.*' 
+      const title_matcher = '^title:([^\n]*)'
+      var msg = message["text"];
+
+
+      if (channel_name.match(bot_room)){
+        if(msg.match(key_word_matcher)){
+          if(message["files"]==null){
+            var img_url = ""           
+          }else{
+            var img_url = message["files"][0]["url_private"];
+          };
+          var title = encodeURIComponent(msg.match(title_matcher)[1]);
+          var desc = encodeURIComponent(msg+'\n'+img_url);
+          var url = `https://trello.com/1/cards?key=${key}&token=${token}&idList=${list_new_id}&name=${title}&desc=${desc}`;
+          var webclient = require("request");
+          webclient.post({
+            url: url,
+            headers: {
+              "content-type": "application/json"
+            }
+          }, function (error, response, body){});
+
+          bot.reply(message,"uiチームのタスクに登録されました。随時取り掛かります。")
+
+        };
+      };
     }
   });
 });
+
 
 function repost_to(channel, bot, post_link, message) {
   console.log(message);
