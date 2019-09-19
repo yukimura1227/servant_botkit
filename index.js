@@ -35,6 +35,7 @@ controller.hears('hi', hearing_event_mention, function(bot,message) {
 
 controller.hears('', hearing_event_all, function(bot,message) {
   // console.log(bot);
+  console.log(message);
   var id = message.client_msg_id;
   var slack_team = process.env.SLACK_TEAM;
   var channel_id = message.channel;
@@ -49,22 +50,58 @@ controller.hears('', hearing_event_all, function(bot,message) {
       // console.log(channel_info);
       var channel_name =  channel_info.channel.name;
 
-      if(channel_name.match('^times_.+')) {
-        repost_to('#timeline', bot, post_link, message);
-      }
+      // if(channel_name.match('^times_.+')) {
+      //   repost_to('#timeline', bot, post_link, message);
+      // }
 
-      if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
-        repost_to('#日報_all', bot, post_link, message);
-      }
+      // if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
+      //   repost_to('#日報_all', bot, post_link, message);
+      // }
 
-      if (channel_name.match('^日報_(.*)_.+')) {
-        matcher = channel_name.match('^日報_(.*)_.+');
-        repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
-        repost_to('#日報_all', bot, post_link, message);
-      }
+      // if (channel_name.match('^日報_(.*)_.+')) {
+      //   matcher = channel_name.match('^日報_(.*)_.+');
+      //   repost_to(`#日報_${matcher[1]}`, bot, post_link, message);
+      //   repost_to('#日報_all', bot, post_link, message);
+      // }
+
+     
+
+      const key = "7baa756dc6314bb4a1b7e3019602d0dc";
+      const token="e4528b014c42038225b7324a5af99f508b1f4f5cdb1972462dcc2651323032a7";
+      const ui_note="5d6e1bd5bf1ddb7a6ac7814c";
+      const list_new_id="5d6e3b0cbdc0466c9eb05c85";      
+      const bot_room = '西口bot実験室'
+      const key_word_matcher = '^title:.*' 
+      const title_matcher = '^title:([^\n]*)'
+      var msg = message["text"];
+
+
+      if (channel_name.match(bot_room)){
+        if(msg.match(key_word_matcher)){
+          if(message["files"]==null){
+            var img_url = ""           
+          }else{
+            var img_url = message["files"][0]["url_private"];
+          };
+          var title = encodeURIComponent(msg.match(title_matcher)[1]);
+          var desc = encodeURIComponent(msg+'\n'+img_url);
+          var url = `https://trello.com/1/cards?key=${key}&token=${token}&idList=${list_new_id}&name=${title}&desc=${desc}`;
+          var webclient = require("request");
+          webclient.post({
+            url: url,
+            headers: {
+              "content-type": "application/json"
+            }
+          }, function (error, response, body){});
+
+          bot.reply(message,"uiチームのタスクに登録されました。随時取り掛かります。")
+
+        };
+      };
     }
   });
 });
+
 
 function repost_to(channel, bot, post_link, message) {
   console.log(message);
