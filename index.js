@@ -92,7 +92,7 @@ controller.hears('', hearing_event_all, function(bot,message) {
             }
           }, function (error, response, body){});
 
-          bot.reply(message,"uiチームのタスクに登録されました。随時取り掛かります。")
+          bot.reply(message,"uiチームのタスクに登録されました。随時取り掛かります。\n https://trello.com/b/jrmkblAB/uinotes")
 
         };
       };
