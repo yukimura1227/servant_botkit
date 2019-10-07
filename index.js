@@ -69,7 +69,7 @@ controller.hears('', hearing_event_all, function(bot,message) {
       const ui_note=process.env.TRELLO_UI_NOTE;
       const list_new_id=process.env.TRELLO_LIST_NEW_ID;
       const bot_room = 'ui_notes'
-      const key_word_matcher = '^title:.*' 
+      const key_word_matcher = '^title:.*'
       const title_matcher = '^title:([^\n]*)'
       var msg = message["text"];
 
@@ -77,7 +77,7 @@ controller.hears('', hearing_event_all, function(bot,message) {
       if (channel_name.match(bot_room)){
         if(msg.match(key_word_matcher)){
           if(message["files"]==null){
-            var img_url = ""           
+            var img_url = ""
           }else{
             var img_url = message["files"][0]["url_private"];
           };
