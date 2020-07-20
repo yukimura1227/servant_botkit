@@ -58,6 +58,10 @@ controller.hears('', hearing_event_all, function(bot,message) {
         repost_to('#timeline', bot, post_link, message);
       }
 
+      if(channel_name.match('^exceptions$')) {
+        sort_exception_into_appropriate_channel(bot, post_link, message)
+      }
+
       if (channel_name.match('^日報_(.*)$') && channel_name.match('_').length === 1/* && username !== 'slackbot'*/) {
         repost_to('#日報_all', bot, post_link, message);
       }
@@ -116,3 +120,25 @@ function repost_to(channel, bot, post_link, message) {
     if(err) { console.log("err: ", err); return; }
   });
 }
+
+function sort_exception_into_appropriate_channel(bot, post_link, message) {
+  matcher = message.match('\/');
+  repost_to_target_channel_postfix = 'others'
+  if ( message.match(/\/manage\//)) {
+    repost_to_target_channel_postfix = 'manage'
+  } else if ( message.match(/\/business\//)) {
+    repost_to_target_channel_postfix = 'business'
+  } else if ( message.match(/\/for_team_manage\//)) {
+    repost_to_target_channel_postfix = 'for_team_manage'
+  } else if ( message.match(/\/works\//)) {
+    repost_to_target_channel_postfix = 'works'
+  } else if ( message.match(/\/cgc\//)) {
+    repost_to_target_channel_postfix = 'games'
+  } else if ( message.match(/\/poh\//)) {
+    repost_to_target_channel_postfix = 'games'
+  } else if ( message.match(/\/codechronicle\//)) {
+    repost_to_target_channel_postfix = 'games'
+  }
+  repost_to(`#exceptions_${repost_to_target_channel_postfix}`, bot, post_link, message);
+}
+
