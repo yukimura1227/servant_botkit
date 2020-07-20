@@ -122,21 +122,20 @@ function repost_to(channel, bot, post_link, message) {
 }
 
 function sort_exception_into_appropriate_channel(bot, post_link, message) {
-  matcher = message.match('\/');
   repost_to_target_channel_postfix = 'others'
-  if ( message.match(/\/manage\//)) {
+  if ( message.text.match(/\/manage\//)) {
     repost_to_target_channel_postfix = 'manage'
-  } else if ( message.match(/\/business\//)) {
+  } else if ( message.text.match(/\/business\//)) {
     repost_to_target_channel_postfix = 'business'
-  } else if ( message.match(/\/for_team_manage\//)) {
+  } else if ( message.text.match(/\/for_team_manage\//)) {
     repost_to_target_channel_postfix = 'for_team_manage'
-  } else if ( message.match(/\/works\//)) {
+  } else if ( message.text.match(/\/works\//)) {
     repost_to_target_channel_postfix = 'works'
-  } else if ( message.match(/\/cgc\//)) {
+  } else if ( message.text.match(/\/cgc\//)) {
     repost_to_target_channel_postfix = 'games'
-  } else if ( message.match(/\/poh\//)) {
+  } else if ( message.text.match(/\/poh\//)) {
     repost_to_target_channel_postfix = 'games'
-  } else if ( message.match(/\/codechronicle\//)) {
+  } else if ( message.text.match(/\/codechronicle\//)) {
     repost_to_target_channel_postfix = 'games'
   }
   repost_to(`#exceptions_${repost_to_target_channel_postfix}`, bot, post_link, message);
