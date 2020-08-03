@@ -1,6 +1,6 @@
-const Botkit = require('botkit');
-const request = require('request');
-const dateutils = require('date-utils');
+const Botkit    = require('botkit');
+const request   = require('request');
+const require('date-utils');
 
 if (!process.env.TOKEN) {
   console.log('Error: Specify TOKEN in environment');
@@ -73,19 +73,19 @@ controller.hears('', hearing_event_all, function(bot,message) {
         repost_to('#日報_all', bot, post_link, message);
       }
 
-      const key = process.env.TRELLO_KEY;
-      const token=process.env.TRELLO_TOKEN;
-      const ui_note=process.env.TRELLO_UI_NOTE;
-      const list_new_id=process.env.TRELLO_LIST_NEW_ID;
-      const bot_room = 'ui_notes'
+      const key         = process.env.TRELLO_KEY;
+      const token       = process.env.TRELLO_TOKEN;
+      const ui_note     = process.env.TRELLO_UI_NOTE;
+      const list_new_id = process.env.TRELLO_LIST_NEW_ID;
+      const bot_room         = 'ui_notes'
       const key_word_matcher = '^title:.*'
-      const title_matcher = '^title:([^\n]*)'
-      const dt = new Date();
-      const posted_at = '### 投稿日\n'+dt.toFormat("YYYY/MM/DD/ HH24:MI")+'\n';
-      const msg_url = '### Slack URL\nhttps://paiza.slack.com/archives/C8RRSA2CS/p'+message['event_ts']+'\n'
-      const msg = message["text"]
-      const trello_body = '###概要\n'+message["text"].replace( /^title:/g, '')+'\n';
-      var img_url = ''
+      const title_matcher    = '^title:([^\n]*)'
+      const dt               = new Date();
+      const posted_at        = '### 投稿日\n'+dt.toFormat("YYYY/MM/DD/ HH24:MI")+'\n';
+      const msg_url          = '### Slack URL\nhttps://paiza.slack.com/archives/C8RRSA2CS/p'+message['event_ts']+'\n'
+      const msg              = message["text"]
+      const trello_body      = '###概要\n'+message["text"].replace( /^title:/g, '')+'\n';
+      var img_url            = ''
 
       var desc = encodeURIComponent(msg+msg_url+posted_at+img_url);
       if (channel_name.match(bot_room)){
@@ -93,9 +93,9 @@ controller.hears('', hearing_event_all, function(bot,message) {
           if(message["files"]){
             img_url = '### 画像URL\n' + message["files"][0]["url_private"]+'\n'
           }
-          var title = encodeURIComponent(msg.match(title_matcher)[1]);
-          var desc = encodeURIComponent(trello_body+msg_url+posted_at+img_url);
-          var url = `https://trello.com/1/cards?key=${key}&token=${token}&idList=${list_new_id}&name=${title}&desc=${desc}`;
+          var title     = encodeURIComponent(msg.match(title_matcher)[1]);
+          var desc      = encodeURIComponent(trello_body+msg_url+posted_at+img_url);
+          var url       = `https://trello.com/1/cards?key=${key}&token=${token}&idList=${list_new_id}&name=${title}&desc=${desc}`;
           var webclient = require("request");
 
           webclient.post({
