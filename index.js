@@ -1,6 +1,6 @@
 const Botkit    = require('botkit');
 const request   = require('request');
-const require('date-utils');
+require('date-utils');
 
 if (!process.env.TOKEN) {
   console.log('Error: Specify TOKEN in environment');
