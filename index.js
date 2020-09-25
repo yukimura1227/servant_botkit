@@ -93,7 +93,8 @@ controller.hears('', hearing_event_all, function(bot,message) {
           if(message["files"]){
             img_url = '### 画像URL\n' + message["files"][0]["url_private"]+'\n'
           }
-          var title     = encodeURIComponent(msg.match(title_matcher)[1]);
+          var hashtag   = '#' + dt.toFormat("YYYY年MM月") + '報告分';
+          var title     = encodeURIComponent(msg.match(title_matcher)[1] + hashtag);
           var desc      = encodeURIComponent(trello_body+msg_url+posted_at+img_url);
           var url       = `https://trello.com/1/cards?key=${key}&token=${token}&idList=${list_new_id}&name=${title}&desc=${desc}`;
           var webclient = require("request");
