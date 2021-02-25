@@ -48,7 +48,7 @@ controller.hears('', hearing_event_all, function(bot,message) {
   event_ts = event_ts.replace('.','')
   var url_parameter = `?thread_ts=${message.thread_ts}&cid=${channel_id}`
   var post_link = `https://${slack_team}.slack.com/archives/${channel_id}/p${event_ts}`
-  var URL = `https://slack.com/api/channels.info?token=${process.env.TOKEN}&channel=${channel_id}`
+  var URL = `https://slack.com/api/conversations.info?token=${process.env.TOKEN}&channel=${channel_id}`
   request(URL, (error, response, body) => {
     if (!error && response.statusCode == 200) {
       let channel_info = JSON.parse(body);
