@@ -13,7 +13,8 @@ if (!process.env.SLACK_TEAM) {
 }
 
 const controller = Botkit.slackbot({
-  debug: false
+  debug: false,
+  retry: 3,
 });
 
 controller.spawn({
